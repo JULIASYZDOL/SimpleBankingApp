@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sensitive data</h1>
+
+<div id="sensitive_data">
+  <% @sensitive_data.each do |sensitive_datum| %>
+    <%= render sensitive_datum %>
+    <p>
+      <%= link_to "Show this sensitive datum", sensitive_datum %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sensitive datum", new_sensitive_datum_path %>

@@ -1,0 +1,7 @@
+<h1>Password Combination Details</h1>
+
+<p><strong>Combination:</strong> <%= @password_combination.combination %></p>
+
+<p><strong>Character Positions:</strong> <%= @password_combination.character_positions.join(', ') %></p>
+
+<%= link_to 'Back', password_combinations_path %>

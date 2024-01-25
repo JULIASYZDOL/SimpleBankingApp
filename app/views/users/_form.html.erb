@@ -1,0 +1,86 @@
+<%= form_with(model: user) do |form| %>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+  <% if user.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :username %>
+    <%= form.text_field :username, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mail %>
+    <%= form.email_field :mail %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password, autocomplete: "new-password", id: 'password-field' %>
+  </div>
+  
+  <div id="password-strength-container" style="display: none;">
+    <p>Password Strength: <span id="password-strength"></span></p>
+  </div>
+
+  <div class="field">
+    <%= form.label :identity_document %>
+    <%= form.text_field :identity_document %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Register" %>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      $('#password-field').on('input', function() {
+        var password = $(this).val();
+        var strength = calculatePasswordStrength(password);
+        $('#password-strength').text(strength);
+        $('#password-strength-container').show();
+      });
+
+      function calculatePasswordStrength(password) {
+        let score = 0;
+
+        if (password.length >= 8) score += 2;
+
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 2;
+        if (/\d/.test(password)) score += 2;
+        if (/[!@#\$%\^&\*]/.test(password)) score += 2;
+
+        const entropy = calculateShannonEntropy(password);
+        const entropyScore = Math.min(2, entropy / 4.0);
+        score += Math.round(entropyScore * 2);
+
+        const strength = Math.round((score / 10.0) * 10);
+        return `${strength}/10`;
+      }
+
+      function calculateShannonEntropy(input) {
+        const uniqueCharacters = new Set(input);
+        const inputLength = input.length;
+        let entropy = 0;
+
+        uniqueCharacters.forEach(char => {
+          const frequency = input.split(char).length - 1;
+          const probability = frequency / inputLength;
+          entropy -= probability * Math.log2(probability);
+        });
+
+        return entropy;
+      }
+    });
+  </script>
+<% end %>

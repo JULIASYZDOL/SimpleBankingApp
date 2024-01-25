@@ -1,0 +1,6 @@
+<%= form_with(url: sessions_path, method: :post) do |form| %>
+  <%= form.label :mail %>
+  <%= form.text_field :mail %>
+
+  <%= form.submit "Continue" %>
+<% end %>

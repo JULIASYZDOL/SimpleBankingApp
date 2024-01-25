@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @sensitive_datum %>
+
+<div>
+  <%= link_to "Edit this sensitive datum", edit_sensitive_datum_path(@sensitive_datum) %> |
+  <%= link_to "Back to sensitive data", sensitive_data_path %>
+
+  <%= button_to "Destroy this sensitive datum", @sensitive_datum, method: :delete %>
+</div>
