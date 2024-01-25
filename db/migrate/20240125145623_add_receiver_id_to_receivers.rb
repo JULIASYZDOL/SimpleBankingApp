@@ -1,0 +1,5 @@
+class AddReceiverIdToReceivers < ActiveRecord::Migration[7.1]
+  def change
+    add_column :receivers, :receiver_id, :integer
+  end
+end

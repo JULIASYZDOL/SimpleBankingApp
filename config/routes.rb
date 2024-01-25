@@ -9,11 +9,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :users, only: [:new, :edit, :update]
+  resources :users, only: [:new, :edit, :update, :show]
   resources :accounts
   resources :transactions
-  resources :sensitive_data
-  resources :password_reset_tokens
   
   resources :sessions, only: [:new, :create, :destroy] do
     get :password_combination, on: :collection
@@ -28,4 +26,5 @@ Rails.application.routes.draw do
 
   resources :password_combinations, only: [:show]
 
+  post '/csp_report', to: 'csp_reports#report'
 end

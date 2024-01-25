@@ -211,6 +211,7 @@ GEM
     rexml (3.2.6)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    secure_headers (6.5.0)
     selenium-webdriver (4.16.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -268,6 +269,7 @@ DEPENDENCIES
   jquery-rails
   puma (>= 5.0)
   rails (~> 7.1.2)
+  secure_headers
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)

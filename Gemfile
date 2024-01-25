@@ -36,6 +36,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'figaro'
 
+gem 'secure_headers'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

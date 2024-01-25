@@ -1,17 +1,22 @@
 <div id="<%= dom_id transaction %>">
   <p>
     <strong>Amount:</strong>
-    <%= transaction.amount %>
+    <%= h(transaction.amount) %>
   </p>
 
   <p>
     <strong>Title:</strong>
-    <%= transaction.title %>
+    <%= h(transaction.title) %>
+  </p>
+
+  <p>
+    <strong>Sender name:</strong>
+    <%= h(transaction.sender.user.username) %>
   </p>
 
   <p>
     <strong>Recipient name:</strong>
-    <%= transaction.recipient_name %>
+    <%= h(transaction.recipient_name) %>
   </p>
 
 </div>

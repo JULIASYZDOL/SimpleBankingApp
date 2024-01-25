@@ -1,8 +1,10 @@
 class User < ApplicationRecord
     attr_encrypted :selected_characters, key: Figaro.env.secret_key
+
+    has_many :senders
+    has_many :receivers
   
     has_secure_password
-    has_one :sensitive_data
     has_many :accounts
     has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id'
     has_many :received_transactions, class_name: 'Transaction', foreign_key: 'receiver_id'

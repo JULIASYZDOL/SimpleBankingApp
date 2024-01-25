@@ -5,9 +5,8 @@ class TransactionsController < ApplicationController
     before_action :set_transaction, only: %i[show edit update destroy]
   
     def index
-      @sent_transactions = current_user.sent_transactions
-      @received_transactions = current_user.received_transactions
-      @transactions = @sent_transactions + @received_transactions
+      @transactions = Transaction.where(sender_id: current_user.accounts.pluck(:id))
+                                 .or(Transaction.where(receiver_id: current_user.accounts.pluck(:id)))
     end 
   
     def show
@@ -19,7 +18,9 @@ class TransactionsController < ApplicationController
   
     def create
       @transaction = Transaction.new(transaction_params)
-      @transaction.sender = current_user.accounts.first
+    
+      sender_account = current_user.accounts.first
+      @transaction.sender = sender_account
     
       recipient_account_number = params[:transaction][:recipient_account_number]
       recipient = Account.find_by(account_number: recipient_account_number)
@@ -36,7 +37,7 @@ class TransactionsController < ApplicationController
       else
         render :new
       end
-    end    
+    end        
   
     def edit
     end

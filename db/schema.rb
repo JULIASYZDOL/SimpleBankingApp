@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_24_222420) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_25_193327) do
   create_table "accounts", force: :cascade do |t|
     t.string "account_number"
     t.decimal "balance"
@@ -38,6 +38,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_24_222420) do
     t.index ["user_id"], name: "index_password_reset_tokens_on_user_id"
   end
 
+  create_table "receivers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "receiver_id"
+  end
+
+  create_table "senders", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sender_id"
+  end
+
   create_table "sensitive_data", force: :cascade do |t|
     t.string "card_number"
     t.string "identity_document"
@@ -50,12 +64,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_24_222420) do
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount"
     t.string "title"
-    t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "recipient_account_number"
     t.string "recipient_name"
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
     t.index ["receiver_id"], name: "index_transactions_on_receiver_id"
     t.index ["sender_id"], name: "index_transactions_on_sender_id"
   end
@@ -75,6 +89,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_24_222420) do
   add_foreign_key "password_combinations", "users"
   add_foreign_key "password_reset_tokens", "users"
   add_foreign_key "sensitive_data", "users"
-  add_foreign_key "transactions", "receivers"
-  add_foreign_key "transactions", "senders"
+  add_foreign_key "transactions", "accounts", column: "receiver_id"
+  add_foreign_key "transactions", "accounts", column: "sender_id"
 end
