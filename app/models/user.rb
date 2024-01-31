@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     attr_encrypted :selected_characters, key: Figaro.env.secret_key
+    /attr_encrypted :identity_document, key: Figaro.env.secret_key
+    attr_encrypted :card_number, key: Figaro.env.secret_key/
 
     has_many :senders
     has_many :receivers
@@ -19,7 +21,7 @@ class User < ApplicationRecord
   
     after_create :generate_and_save_password_combinations
     after_create :create_user_account
-  
+
     def authenticate_with_selected_characters(selected_characters)
         stored_combination = password_combinations.sample
         stored_combination.authenticate(selected_characters)

@@ -4,6 +4,8 @@ class Account < ApplicationRecord
   has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id'
   has_many :received_transactions, class_name: 'Transaction', foreign_key: 'receiver_id'
 
+  attr_encrypted :account_number, key: Figaro.env.secret_key
+
   private
   def generate_account_number
     self.account_number = generate_unique_account_number

@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+    before_action :require_login
     before_action :set_account, only: %i[show edit update destroy]
   
     def index
@@ -6,6 +7,11 @@ class AccountsController < ApplicationController
     end
   
     def show
+      @user = User.find(session[:user_id])
+      if User.find(session[:user_id]) != User.find(params[:id])
+        session[:user_id] = nil
+        redirect_to root_path
+      end
     end
   
     def new
@@ -32,10 +38,10 @@ class AccountsController < ApplicationController
       end
     end
   
-    def destroy
+    /def destroy
       @account.destroy
       redirect_to accounts_url, notice: 'Account was successfully destroyed.'
-    end
+    end/
   
     private
   

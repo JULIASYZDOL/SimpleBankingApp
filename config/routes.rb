@@ -9,13 +9,14 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :users, only: [:new, :edit, :update, :show]
+  resources :users, only: [:new, :create, :edit, :update, :show]
   resources :accounts
   resources :transactions
   
   resources :sessions, only: [:new, :create, :destroy] do
     get :password_combination, on: :collection
     post :verify_combination, on: :collection
+    get 'validate_characters', on: :collection
     post 'validate_characters', on: :collection
     get :enter_characters, on: :collection
   end

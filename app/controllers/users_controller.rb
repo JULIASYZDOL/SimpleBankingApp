@@ -1,12 +1,15 @@
 class UsersController < ApplicationController
-  /before_action :set_user, only: %i[show edit update destroy]/
-  before_action :require_login, only: [:edit, :update]
+  before_action :require_login, except: [:create, :new]
 
   def index
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(session[:user_id])
+    if User.find(session[:user_id]) != User.find(params[:id])
+      session[:user_id] = nil
+      redirect_to root_path
+    end
   end
 
   def new
@@ -28,15 +31,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-    Rails.logger.info("Params: #{params.inspect}")
-    if @user&.authenticate(params[:user][:current_password]) && params[:user][:password] == params[:user][:password_confirmation]
+    @user = User.find(session[:user_id])
+    
+    if @user&.authenticate(user_params[:current_password]) && user_params[:password] == user_params[:password_confirmation]
       Rails.logger.info('Current password is valid.')
-      if @user.update(password: params[:user][:password])
-        generate_and_save_password_combinations
+      if @user.update(password: user_params[:password])
+        user.generate_and_save_password_combinations
         redirect_to transactions_path, notice: 'Password and selected_characters updated successfully.'
       else
-        flash.now[:alert] = "Error: #{@user.errors.full_messages.join(', ')}"
+        flash.now[:alert] = "Error: #{user.errors.full_messages.join(', ')}"
         render :edit
       end
     else
@@ -47,13 +50,13 @@ class UsersController < ApplicationController
 
   private
 
-  def destroy
+  /def destroy
     @user.destroy
     redirect_to users_url, notice: 'User was successfully destroyed.'
-  end
+  end/
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find(session[:id])
   end
 
   def user_params

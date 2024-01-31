@@ -10,7 +10,14 @@ class TransactionsController < ApplicationController
     end 
   
     def show
+      @transaction = Transaction.find(params[:id])
+  
+      unless current_user.accounts.exists?(@transaction.sender_id) || current_user.accounts.exists?(@transaction.receiver_id)
+        flash[:error] = "You are not authorized to view this transaction."
+        redirect_to transactions_path
+      end
     end
+  
   
     def new
       @transaction = Transaction.new
@@ -51,8 +58,8 @@ class TransactionsController < ApplicationController
     end
   
     def destroy
-      @transaction.destroy
-      redirect_to transactions_url, notice: 'Transaction was successfully destroyed.'
+      /@transaction.destroy
+      redirect_to transactions_url/
     end
   
     private
