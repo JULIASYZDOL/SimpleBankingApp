@@ -1,5 +1,8 @@
 version: '3'
 
+networks:
+  my_network:
+
 services:
   web:
     build:
@@ -7,6 +10,24 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - SECRET_KEY_BASE=a4d9e6cb3c7e25b2b7221f549a394a43c0f667ca63f0e62a34934fb1bbb11990df8aea9cfef9b7ee44340aae03aa764e6dbfb77d448a70eb1a53198c54cd34ea
     volumes:
       - "./db:/app/db"
       - "./app:/app"
+    networks:
+      - my_network
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    volumes:
+      - "./etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "./etc/nginx/ssl:/etc/nginx/ssl:ro"
+    ports:
+      - "8080:8080"
+      - "443:443"
+    depends_on:
+      - web
+    networks:
+      - my_network
