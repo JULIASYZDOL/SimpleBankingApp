@@ -1,7 +1,7 @@
 class User < ApplicationRecord
     attr_encrypted :selected_characters, key: Figaro.env.secret_key
-    /attr_encrypted :identity_document, key: Figaro.env.secret_key
-    attr_encrypted :card_number, key: Figaro.env.secret_key/
+    attr_encrypted :identity_document, key: Figaro.env.secret_key
+    attr_encrypted :card_number, key: Figaro.env.secret_key
 
     has_many :senders
     has_many :receivers

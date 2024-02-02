@@ -6,6 +6,8 @@ class Account < ApplicationRecord
 
   attribute :balance, default: 100
 
+  attr_encrypted :account_number, key: Figaro.env.secret_key
+
   def generate_account_number
     self.account_number = generate_unique_account_number
   end
