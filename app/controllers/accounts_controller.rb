@@ -31,11 +31,11 @@ class AccountsController < ApplicationController
     end
   
     def update
-      if @account.update(account_params)
+      /if @account.update(account_params)
         redirect_to @account, notice: 'Account was successfully updated.'
       else
         render :edit
-      end
+      end/
     end
   
     /def destroy

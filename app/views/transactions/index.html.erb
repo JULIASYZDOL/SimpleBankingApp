@@ -12,6 +12,8 @@
     </nav>
   </header>
 
+  <p>Balance: <%= @balance %></p>
+
   <% @transactions.each do |transaction| %>
     <%= render transaction %>
     <p>

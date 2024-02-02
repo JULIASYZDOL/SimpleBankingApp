@@ -13,7 +13,7 @@ services:
     environment:
       - SECRET_KEY_BASE=a4d9e6cb3c7e25b2b7221f549a394a43c0f667ca63f0e62a34934fb1bbb11990df8aea9cfef9b7ee44340aae03aa764e6dbfb77d448a70eb1a53198c54cd34ea
     volumes:
-      - "./db:/app/db"
+      - "./db:/db"
       - "./app:/app"
     networks:
       - my_network

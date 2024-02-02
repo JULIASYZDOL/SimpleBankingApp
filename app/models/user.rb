@@ -48,7 +48,9 @@ class User < ApplicationRecord
     end
 
     def create_user_account
-        build_account.save
+      account = Account.new(user: self)
+      account.generate_account_number
+      account.save
     end
   end
   

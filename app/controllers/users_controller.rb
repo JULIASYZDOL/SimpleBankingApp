@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     if @user&.authenticate(user_params[:current_password]) && user_params[:password] == user_params[:password_confirmation]
       Rails.logger.info('Current password is valid.')
       if @user.update(password: user_params[:password])
-        user.generate_and_save_password_combinations
+        @user.generate_and_save_password_combinations
         redirect_to transactions_path, notice: 'Password and selected_characters updated successfully.'
       else
         flash.now[:alert] = "Error: #{user.errors.full_messages.join(', ')}"
@@ -66,11 +66,11 @@ class UsersController < ApplicationController
   def logged_in_user
     unless logged_in?
       flash[:danger] = 'Please log in.'
-      redirect_to login_url
+      redirect_to root_path
     end
   end
 
   def require_login
-    redirect_to login_path unless logged_in?
+    redirect_to root_path unless logged_in?
   end
 end
